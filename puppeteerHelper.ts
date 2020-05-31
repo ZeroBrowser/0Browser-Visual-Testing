@@ -1,7 +1,6 @@
 import { Browser, Page } from "./node_modules/@types/puppeteer";
 import * as puppeteer from 'puppeteer-core';
 
-
 export class Helper {
     browser: Browser;
     page: Page;
@@ -14,7 +13,7 @@ export class Helper {
         console.log(puppeteer);
         this.browser = await puppeteer.connect({
             browserWSEndpoint:
-                'wss://proxy.0browser.com?token={token}&timeout=160000',
+                'wss://proxy.0browser.com?token={your-token}&timeout=160000',
         });
         console.info(`helper is initialized : ${this.browser.isConnected()}`);
         return this.browser;
@@ -57,6 +56,11 @@ export class Helper {
         return this.page.$eval(selector, (element) => {
             return element.innerHTML
         });
+    }
+
+    async elementScreenshot(selector: string, fileName: string) {
+        const el = await this.page.$(selector);
+        await el.screenshot({ path: fileName });
     }
 
     async close() {

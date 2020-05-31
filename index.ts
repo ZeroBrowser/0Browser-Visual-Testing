@@ -1,12 +1,9 @@
 import { Helper } from "./puppeteerHelper";
-import * as compare from 'dom-compare';
 import fs = require('fs');
 import { PathLike } from 'fs';
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+import * as BlinkDiff from 'blink-diff';
 
 class Startup {
-
 
     constructor() {
 
@@ -14,75 +11,50 @@ class Startup {
 
     public async main() {
 
-        let fileName: PathLike = "last-dom-body.txt";
+        //let fileName: PathLike = "last-dom-body.txt";
+
+        let baseImageName: PathLike = "base.png";
+        let newImageName: PathLike = "new.png";
 
         let helper = new Helper();
         await helper.init();
-        let page = await helper.goto('https://medium.com/0browser');
+        let page = await helper.goto('https://news.google.com/topstories?hl=en-US&gl=US&ceid=US:en');
 
-        let selector = `div.js-collectionStream`;
-        let currentContent = await helper.getHTML(selector);
-        let oldContent: string = null;
+        //let selector = `div.js-collectionStream`;
+        let selector = 'div.xrnccd';
 
-        //if we have an older snapshot lets read and compare it with the new one
-        if (fs.existsSync(fileName)) {
-            oldContent = await this.getLastSnapshot(fileName);
-        }
+        await helper.elementScreenshot(selector, newImageName);
 
-        await this.detectChange(oldContent, currentContent);
+        await this.detectChange(baseImageName, newImageName);
 
-        //lets save the most updated html body
-        await this.save(currentContent, fileName);
+        await helper.elementScreenshot(selector, baseImageName);
 
         //we are done
         await helper.close();
     }
 
 
-    async detectChange(oldContent: String, currentContent: String) {
-        //lets compare if we have an older version
-        if (oldContent !== null) {
-            var options = {
-                stripSpaces: false,
-                compareComments: false,
-                collapseSpaces: false,
-                normalizeNewlines: false
-            };
+    async detectChange(baseImageName: string, newImageName: string) {
+        if (fs.existsSync(baseImageName)) {
+            var diff = new BlinkDiff({
+                imageAPath: baseImageName, // Use file-path
+                imageBPath: newImageName,
 
-            let oldDocument = new JSDOM(oldContent).window.document;;
-            let currentDocument = new JSDOM(currentContent).window.document;;
+                thresholdType: BlinkDiff.THRESHOLD_PERCENT,
+                threshold: 0.01, // 1% threshold
 
-            let result = compare.compare(oldDocument, currentDocument, options);
+                imageOutputPath: 'comparison.png'
+            });
 
-            if (result.getDifferences().length > 0) {
-                console.log("Your page is changed !");
-
-                // differences, grouped by node XPath
-                let groupedDiff = compare.GroupingReporter.getDifferences(result);
-                console.log(groupedDiff);
-            }
-            else
-                console.log("Nothing changed!");
+            diff.run(function (error, result) {
+                if (error) {
+                    throw error;
+                } else {
+                    console.log(diff.hasPassed(result.code) ? 'Passed' : 'Failed');
+                    console.log('Found ' + result.differences + ' differences.');
+                }
+            });
         }
-    }
-
-    async save(html: string, fileName: PathLike) {
-        //lets save it to disk, prettify
-        fs.writeFile(fileName, html, function (err) {
-            if (err)
-                throw err;
-
-            console.log(`${fileName} Saved!`);
-        });
-    }
-
-    async getLastSnapshot(fileName: PathLike): Promise<string> {
-        return new Promise<string>((resolve, reject) =>
-            fs.readFile(fileName, (err, data) => {
-                //if has error reject, otherwise resolve
-                return err ? reject(err) : resolve(data.toString());
-            })
-        );
     }
 
 }

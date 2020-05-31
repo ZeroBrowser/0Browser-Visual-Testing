@@ -11,10 +11,9 @@
     "author": "0Browser",
     "license": "ISC",
     "dependencies": {
+        "blink-diff": "^1.0.13",
         "cors": "^2.8.5",
-        "dom-compare": "^0.6.0",
         "express": "^4.17.1",
-        "jsdom": "^16.2.2",
         "node-cron": "^2.0.3",
         "puppeteer-core": "^3.2.0"
     },

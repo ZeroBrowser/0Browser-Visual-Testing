@@ -6,7 +6,5 @@
 6. npm i node-cron -save
 7. npm i @types/node-cron 
 8. npm i cors -save
-9. npm i dom-compare -save
-10. npm i jsdom --save
-11. npm i @types/jsdom -save-dev
+9. npm i blink-diff -save
 
