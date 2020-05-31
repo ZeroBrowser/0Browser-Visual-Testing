@@ -14,17 +14,18 @@ export class Helper {
         console.log(puppeteer);
         this.browser = await puppeteer.connect({
             browserWSEndpoint:
-                'wss://proxy.0browser.com?token={your-token}&timeout=160000',
+                'wss://proxy.0browser.com?token={token}&timeout=160000',
         });
         console.info(`helper is initialized : ${this.browser.isConnected()}`);
         return this.browser;
     }
 
-    async goto(url): Promise<Page> {
+    async goto(url: string): Promise<Page> {
         this.page = await this.browser.newPage();
-        this.page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+        this.page.on('console', msg => console.log('PAGE LOG:', (msg ? msg.text() : '')));
         await this.page.setViewport({ width: 1280, height: 1000 });
         await this.page.goto(url);
+        this.page.setCacheEnabled(false);
         return this.page;
     }
 
@@ -41,6 +42,21 @@ export class Helper {
             this.page.waitForNavigation({ waitUntil: 'networkidle0' })
         ]);
         return this.page;
+    }
+
+
+    async getBody(): Promise<string> {
+        const aHandle = await this.page.evaluateHandle(() => document.body);
+        const resultHandle = await this.page.evaluateHandle(body => body.innerHTML, aHandle);
+        let results: any = await resultHandle.jsonValue();
+        await resultHandle.dispose();
+        return results;
+    }
+
+    async getHTML(selector: string): Promise<string> {
+        return this.page.$eval(selector, (element) => {
+            return element.innerHTML
+        });
     }
 
     async close() {

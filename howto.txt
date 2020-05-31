@@ -1,0 +1,12 @@
+1. npm init -y
+2. npm i puppeteer-core -save
+3. npm i @types/puppeteer --save-dev
+4. npm i @types/express --save-dev
+5. npm i express -save
+6. npm i node-cron -save
+7. npm i @types/node-cron 
+8. npm i cors -save
+9. npm i dom-compare -save
+10. npm i jsdom --save
+11. npm i @types/jsdom -save-dev
+
