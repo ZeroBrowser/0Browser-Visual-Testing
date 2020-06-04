@@ -11,8 +11,6 @@ class Startup {
 
     public async main() {
 
-        //let fileName: PathLike = "last-dom-body.txt";
-
         let baseImageName: PathLike = "before-deployment.png";
         let newImageName: PathLike = "after-deployment.png";
 
