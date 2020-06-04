@@ -18,16 +18,16 @@ class Startup {
 
         let helper = new Helper();
         await helper.init();
-        let page = await helper.goto('https://news.google.com/topstories?hl=en-US&gl=US&ceid=US:en');
+        let page = await helper.goto('https://www.0browser.com');
+        
+        await helper.delay(4000);
 
-        //let selector = `div.js-collectionStream`;
-        let selector = 'div.xrnccd';
-
-        await helper.elementScreenshot(selector, newImageName);
+        if (fs.existsSync(baseImageName))
+            await page.screenshot({ path: newImageName });
 
         await this.detectChange(baseImageName, newImageName);
 
-        await helper.elementScreenshot(selector, baseImageName);
+        await page.screenshot({ path: baseImageName });
 
         //we are done
         await helper.close();
@@ -36,13 +36,15 @@ class Startup {
 
     async detectChange(baseImageName: string, newImageName: string) {
         if (fs.existsSync(baseImageName)) {
+
             var diff = new BlinkDiff({
                 imageAPath: baseImageName, // Use file-path
                 imageBPath: newImageName,
 
                 thresholdType: BlinkDiff.THRESHOLD_PERCENT,
                 threshold: 0.01, // 1% threshold
-
+                //delta: 10,
+                //perceptual: true,
                 imageOutputPath: 'comparison.png'
             });
 

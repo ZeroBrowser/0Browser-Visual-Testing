@@ -15,6 +15,7 @@
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "node-cron": "^2.0.3",
+        "pixelmatch": "^5.2.0",
         "puppeteer-core": "^3.2.0"
     },
     "devDependencies": {

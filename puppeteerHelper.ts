@@ -63,6 +63,12 @@ export class Helper {
         await el.screenshot({ path: fileName });
     }
 
+    async delay(time) {
+        return new Promise(function(resolve) { 
+            setTimeout(resolve, time)
+        });
+     }
+
     async close() {
         await this.browser.close();
     }

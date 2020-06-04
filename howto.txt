@@ -7,4 +7,4 @@
 7. npm i @types/node-cron 
 8. npm i cors -save
 9. npm i blink-diff -save
-
+10. npm i pixelmatch -save
