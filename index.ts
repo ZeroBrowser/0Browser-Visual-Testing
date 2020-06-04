@@ -13,8 +13,8 @@ class Startup {
 
         //let fileName: PathLike = "last-dom-body.txt";
 
-        let baseImageName: PathLike = "base.png";
-        let newImageName: PathLike = "new.png";
+        let baseImageName: PathLike = "before-deployment.png";
+        let newImageName: PathLike = "after-deployment.png";
 
         let helper = new Helper();
         await helper.init();
@@ -34,12 +34,12 @@ class Startup {
     }
 
 
-    async detectChange(baseImageName: string, newImageName: string) {
-        if (fs.existsSync(baseImageName)) {
+    async detectChange(beforDeploymentImage: string, afterDeploymentImage: string) {
+        if (fs.existsSync(beforDeploymentImage)) {
 
             var diff = new BlinkDiff({
-                imageAPath: baseImageName, // Use file-path
-                imageBPath: newImageName,
+                imageAPath: beforDeploymentImage, // Use file-path
+                imageBPath: afterDeploymentImage,
 
                 thresholdType: BlinkDiff.THRESHOLD_PERCENT,
                 threshold: 0.01, // 1% threshold
