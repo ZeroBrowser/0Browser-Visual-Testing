@@ -29,4 +29,6 @@ Then, you can run the application using
 node .\out\index
 ```
 
+Run it twice, once before change and once after change!
+
 Enjoy! :wink:
