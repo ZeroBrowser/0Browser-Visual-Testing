@@ -1,6 +1,6 @@
-# 0browser-page-change-detector
+# 0Browser-Visual-Testing
 
-simple html page detector using 0Browser and Headless Browser + Puppeteer!
+simple Visual test example using 0Browser and Headless Browser + Puppeteer!
 
 Find the full story [here](https://www.0browser.com/blogs/how-to-find-toilet-papers-using-headless-browsers.html)
 
