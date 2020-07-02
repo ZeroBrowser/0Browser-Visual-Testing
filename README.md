@@ -1,6 +1,6 @@
 # 0Browser-Visual-Testing
 
-simple Visual test example using 0Browser and Headless Browser + Puppeteer!
+simple Visual test example using 0Browser + Puppeteer!
 
 Find the full story [here](https://www.0browser.com/blogs/how-to-find-toilet-papers-using-headless-browsers.html)
 
@@ -22,7 +22,7 @@ Build the Typescript application using this command:
 ```
 npm run tsc
 ```
-
+## 🏃 Run
 Then, you can run the application using 
 
 ```
