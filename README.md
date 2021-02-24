@@ -1,6 +1,6 @@
 # Headless-Visual-Testing-Sample
 
-simple Visual test example using 0Browser + Puppeteer!
+Visual testing sample using headless browser and Puppeteer.
 
 Find the full story [here](https://www.0browser.com/blogs/how-to-find-toilet-papers-using-headless-browsers.html)
 
