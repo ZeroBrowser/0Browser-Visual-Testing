@@ -1,4 +1,4 @@
-# 0Browser-Visual-Testing
+# Headless-Visual-Testing-Sample
 
 simple Visual test example using 0Browser + Puppeteer!
 
